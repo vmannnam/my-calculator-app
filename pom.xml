@@ -1,13 +1,42 @@
-
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.example</groupId>
+    <!-- Correct groupId based on your GitHub username for Sonatype -->
+    <groupId>io.github.vmannnam</groupId>
     <artifactId>my-calculator-app</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <!-- Use a release version, not a SNAPSHOT -->
+    <version>1.0.0</version>
     <packaging>jar</packaging>
+
+    <!-- Required Metadata for Central -->
+    <name>My Calculator App</name>
+    <description>A simple calculator application as a demo for Maven Central publishing.</description>
+    <url>https://github.com/vmannnam/my-calculator-app</url>
+
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <!-- Replace with your actual name and email -->
+            <name>Your Name</name>
+            <email>your-email@example.com</email>
+            <organization>io.github.vmannnam</organization>
+            <organizationUrl>https://github.com/vmannnam</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/vmannnam/my-calculator-app.git</connection>
+        <developerConnection>scm:git:ssh://github.com:vmannnam/my-calculator-app.git</developerConnection>
+        <url>https://github.com/vmannnam/my-calculator-app/tree/main</url>
+    </scm>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -15,5 +44,63 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
-    <name>My Calculator App</name>
+    <build>
+        <plugins>
+            <!-- Javadoc Plugin: Creates Javadocs JAR -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Source Plugin: Creates sources JAR -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- GPG Plugin: Signs the artifacts -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Central Publishing Plugin: Deploys to Central -->
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.4.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                    <autoPublish>true</autoPublish>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
